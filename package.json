@@ -38,7 +38,9 @@
         "error",
         {
           "ignores": [
-            "Todos"
+            [
+              "Todos"
+            ]
           ]
         }
       ]

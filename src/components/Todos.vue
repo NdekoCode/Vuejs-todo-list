@@ -1,5 +1,9 @@
 <template>
-  <div class="todos"></div>
+  <section>
+    <header>
+      <h1>Todos</h1>
+    </header>
+  </section>
 </template>
 
 <script>
