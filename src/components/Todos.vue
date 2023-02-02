@@ -12,12 +12,19 @@
       </form>
     </header>
     <div class="main">
-      <ul class="todo-list">
+      <input
+        type="checkbox"
+        class="toggle-all pointer"
+        id="alLDone"
+        v-model="allDone"
+      />
+      <label for="alLDone"></label>
+      <transition-group name="bounce" tag="ul" class="todo-list" appear>
         <!-- :class="{ completed: todo.completed }": Rajoute la classe 'completed' si notre tache est completer -->
         <li
           class="todo"
           :class="{ completed: todo.completed }"
-          v-for="(todo, index) in todos"
+          v-for="(todo, index) in filteredTodos"
           :key="index"
         >
           <div class="view">
@@ -29,25 +36,52 @@
               v-model="todo.completed"
             />
             <label :for="index">{{ todo.name }}</label>
+            <button
+              class="destroy pointer"
+              @click.prevent="removeTodo(todo)"
+            ></button>
           </div>
         </li>
-      </ul>
+      </transition-group>
     </div>
-    <footer class="footer">
-      <div class="mb-3 count-container">
-        <span class="todo-count mx-1"
-          ><strong>{{ undone }} tache à faire</strong></span
-        >
-        <span class="todo-count mx-1"
-          ><strong>{{ done }} Tache faites</strong></span
-        >
-      </div>
-      <ul class="filters">
-        <li><a href="#" class="selected">Toutes</a></li>
-        <li><a href="#">A faire</a></li>
-        <li><a href="#">Faites</a></li>
-      </ul>
-    </footer>
+    <transition name="bounce">
+      <footer class="footer" v-if="todos.length > 0">
+        <div class="mb-3 count-container">
+          <span class="todo-count mx-1"
+            ><strong>{{ undone }} tache à faire</strong></span
+          >
+          <span class="todo-count mx-1"
+            ><strong>{{ done }} Tache faites</strong></span
+          >
+        </div>
+        <ul class="filters">
+          <li>
+            <a
+              href="#"
+              :class="{ selected: filter === 'all' }"
+              @click="filter = 'all'"
+              >Toutes</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              :class="{ selected: filter === 'todo' }"
+              @click="filter = 'todo'"
+              >A faire</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              :class="{ selected: filter === 'done' }"
+              @click="filter = 'done'"
+              >Faites</a
+            >
+          </li>
+        </ul>
+      </footer>
+    </transition>
   </section>
 </template>
 
@@ -63,34 +97,46 @@ export default {
         alert("Entrer une tache correcte");
       }
     },
+    removeTodo(todo) {
+      this.todos = this.todos.filter((d) => d.name !== todo.name);
+    },
   },
   computed: {
+    allDone: {
+      set(value) {
+        console.log(value);
+        this.todos = this.todos.map((todo) => {
+          todo.completed = Boolean(value);
+          return todo;
+        });
+      },
+      get() {
+        return this.undone === 0;
+      },
+    },
     undone() {
       return this.todos.filter((todo) => !todo.completed).length;
     },
     done() {
       return this.todos.filter((todo) => todo.completed).length;
     },
+    filteredTodos() {
+      if (this.filter === "done") {
+        return this.todos.filter((todo) => todo.completed);
+      } else if (this.filter === "todo") {
+        return this.todos.filter((todo) => !todo.completed);
+      }
+      return this.todos;
+    },
   },
   data() {
     return {
       newTodo: "",
+      filter: "all", // Done, todo,all
       todos: [
         {
-          name: "Do something nice for someone I care about",
-          completed: true,
-        },
-        {
-          name: "Memorize the fifty states and their capitals",
-          completed: false,
-        },
-        {
           name: "Watch a classic movie",
-          completed: false,
-        },
-        {
-          name: "Contribute code or a monetary donation to an open-source software project",
-          completed: false,
+          completed: true,
         },
         {
           name: "Solve a Rubik's cube",
@@ -105,19 +151,11 @@ export default {
           completed: false,
         },
         {
-          name: "Write a thank you letter to an influential person in my life",
-          completed: true,
-        },
-        {
           name: "Invite some friends over for a game night",
           completed: false,
         },
         {
           name: "Have a football scrimmage with some friends",
-          completed: false,
-        },
-        {
-          name: "Text a friend I haven't talked to in a long time",
           completed: false,
         },
         {
@@ -129,10 +167,6 @@ export default {
           completed: false,
         },
         {
-          name: "Plan a vacation I've always wanted to take",
-          completed: false,
-        },
-        {
           name: "Clean out car",
           completed: false,
         },
@@ -141,3 +175,11 @@ export default {
   },
 };
 </script>
+<style>
+.bounce-enter-active {
+  animation: bounce-in 0.3s;
+}
+.bounce-leave-active {
+  animation: bounce-out 0.3s;
+}
+</style>

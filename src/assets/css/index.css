@@ -136,9 +136,11 @@ body {
 }
 
 .toggle-all:checked + label:before {
-  color: #737373;
+  color: rgb(93, 194, 175);
 }
-
+.pointer {
+  cursor: pointer;
+}
 .todo-list {
   margin: 0;
   padding: 0;
@@ -380,4 +382,27 @@ html .clear-completed:active {
 }
 .my-1 {
   margin: 0.25rem 0;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes bounce-out {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(0);
+  }
 }
