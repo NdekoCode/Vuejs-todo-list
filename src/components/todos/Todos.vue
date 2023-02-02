@@ -20,7 +20,7 @@
       />
       <label for="alLDone"></label>
       <transition-group name="bounce" tag="ul" class="todo-list" appear>
-        <!-- :class="{ completed: todo.completed }": Rajoute la classe 'completed' si notre tache est completer -->
+        <!-- class="{completed: todo.completed }": Rajoute la classe 'completed' si notre tache est completer -->
         <li
           class="todo"
           :class="{ completed: todo.completed }"
@@ -41,11 +41,12 @@
               @click.prevent="removeTodo(todo)"
             ></button>
           </div>
+          <input type="text" class="edit" v-model="todo.name" />
         </li>
       </transition-group>
     </div>
     <transition name="bounce">
-      <footer class="footer" v-if="todos.length > 0">
+      <footer class="footer" v-if="hasTodos">
         <div class="mb-3 count-container">
           <span class="todo-count mx-1"
             ><strong>{{ undone }} tache à faire</strong></span
@@ -64,10 +65,7 @@
             >
           </li>
           <li>
-            <a
-              href="#"
-              :class="{ selected: filter === 'todo' }"
-              @click="filter = 'todo'"
+            <a :class="{ selected: filter === 'todo' }" @click="filter = 'todo'"
               >A faire</a
             >
           </li>
@@ -80,6 +78,9 @@
             >
           </li>
         </ul>
+        <button v-if="done" class="clear-completed" @click="deleteCompleted">
+          Supprimer les taches terminer
+        </button>
       </footer>
     </transition>
   </section>
@@ -100,8 +101,14 @@ export default {
     removeTodo(todo) {
       this.todos = this.todos.filter((d) => d.name !== todo.name);
     },
+    deleteCompleted() {
+      this.todos = this.todos.filter((d) => !d.completed);
+    },
   },
   computed: {
+    hasTodos() {
+      return this.todos.length > 0;
+    },
     allDone: {
       set(value) {
         console.log(value);
@@ -175,11 +182,5 @@ export default {
   },
 };
 </script>
-<style>
-.bounce-enter-active {
-  animation: bounce-in 0.3s;
-}
-.bounce-leave-active {
-  animation: bounce-out 0.3s;
-}
+<style src="./todos.css">
 </style>
