@@ -12,6 +12,13 @@
       </form>
     </header>
     <div class="main">
+      <input
+        type="checkbox"
+        class="toggle-all pointer"
+        id="alLDone"
+        v-model="allDone"
+      />
+      <label for="alLDone"></label>
       <ul class="todo-list">
         <!-- :class="{ completed: todo.completed }": Rajoute la classe 'completed' si notre tache est completer -->
         <li
@@ -86,6 +93,18 @@ export default {
     },
   },
   computed: {
+    allDone: {
+      set(value) {
+        console.log(value);
+        this.todos = this.todos.map((todo) => {
+          todo.completed = Boolean(value);
+          return todo;
+        });
+      },
+      get() {
+        return false;
+      },
+    },
     undone() {
       return this.todos.filter((todo) => !todo.completed).length;
     },

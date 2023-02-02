@@ -136,9 +136,11 @@ body {
 }
 
 .toggle-all:checked + label:before {
-  color: #737373;
+  color: rgb(93, 194, 175);
 }
-
+.pointer {
+  cursor: pointer;
+}
 .todo-list {
   margin: 0;
   padding: 0;
