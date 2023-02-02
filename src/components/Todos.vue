@@ -34,12 +34,19 @@
       </ul>
     </div>
     <footer class="footer">
-      <span class="todo-count"
-        ><strong>{{ undone }} tache à faire</strong></span
-      >
-      <span class="todo-count"
-        ><strong>{{ done }} Tache faite</strong></span
-      >
+      <div class="mb-3 count-container">
+        <span class="todo-count mx-1"
+          ><strong>{{ undone }} tache à faire</strong></span
+        >
+        <span class="todo-count mx-1"
+          ><strong>{{ done }} Tache faites</strong></span
+        >
+      </div>
+      <ul class="filters">
+        <li><a href="#" class="selected">Toutes</a></li>
+        <li><a href="#">A faire</a></li>
+        <li><a href="#">Faites</a></li>
+      </ul>
     </footer>
   </section>
 </template>
