@@ -1,8 +1,23 @@
 <template>
-  <section>
-    <header>
-      <h1>Todos</h1>
-    </header>
+  <section class="todoapp">
+    <form class="header" @submit.prevent="addTodo">
+      <h1 class="">Todos</h1>
+      <input
+        v-model="newTodo"
+        type="text"
+        class="new-todo"
+        placeholder="Ajouter une tache"
+      />
+    </form>
+    <div class="main">
+      <ul class="todo-list">
+        <li class="todo" v-for="(todo, index) in todos" :key="index">
+          <div class="view">
+            <label for="">{{ todo.name }}</label>
+          </div>
+        </li>
+      </ul>
+    </div>
   </section>
 </template>
 
@@ -11,6 +26,83 @@ export default {
   name: "Todos",
   props: {
     msg: String,
+  },
+  methods: {
+    addTodo() {
+      if (this.newTodo.length > 2) {
+        this.todos = [{ name: this.newTodo, completed: false }, ...this.todos];
+        this.newTodo = "";
+      } else {
+        alert("Entrer une tache correcte");
+      }
+    },
+  },
+  data() {
+    return {
+      newTodo: "",
+      todos: [
+        {
+          name: "Do something nice for someone I care about",
+          completed: true,
+        },
+        {
+          name: "Memorize the fifty states and their capitals",
+          completed: false,
+        },
+        {
+          name: "Watch a classic movie",
+          completed: false,
+        },
+        {
+          name: "Contribute code or a monetary donation to an open-source software project",
+          completed: false,
+        },
+        {
+          name: "Solve a Rubik's cube",
+          completed: false,
+        },
+        {
+          name: "Bake pastries for me and neighbor",
+          completed: false,
+        },
+        {
+          name: "Go see a Broadway production",
+          completed: false,
+        },
+        {
+          name: "Write a thank you letter to an influential person in my life",
+          completed: true,
+        },
+        {
+          name: "Invite some friends over for a game night",
+          completed: false,
+        },
+        {
+          name: "Have a football scrimmage with some friends",
+          completed: false,
+        },
+        {
+          name: "Text a friend I haven't talked to in a long time",
+          completed: false,
+        },
+        {
+          name: "Organize pantry",
+          completed: true,
+        },
+        {
+          name: "Buy a new house decoration",
+          completed: false,
+        },
+        {
+          name: "Plan a vacation I've always wanted to take",
+          completed: false,
+        },
+        {
+          name: "Clean out car",
+          completed: false,
+        },
+      ],
+    };
   },
 };
 </script>
