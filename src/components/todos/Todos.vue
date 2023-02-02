@@ -20,28 +20,7 @@
       />
       <label for="alLDone"></label>
       <transition-group name="bounce" tag="ul" class="todo-list" appear>
-        <!-- :class="{ comp
-        <li
-          class="todo"
-          :class="{ completed: todo.completed }"
-          v-for="(todo, index) in filteredTodos"
-          :key="index"
-        >
-          <div class="view">
-            <input
-              class="toggle"
-              type="checkbox"
-              name="complete"
-              :id="index"
-              v-model="todo.completed"
-            />
-            <label :for="index">{{ todo.name }}</label>
-            <button
-              class="destroy pointer"
-              @click.prevent="removeTodo(todo)"
-            ></button>
-          </div>
-        </li>leted: todo.completed }": Rajoute la classe 'completed' si notre tache est completer -->
+        <!-- class="{completed: todo.completed }": Rajoute la classe 'completed' si notre tache est completer -->
         <li
           class="todo"
           :class="{ completed: todo.completed }"
@@ -85,10 +64,7 @@
             >
           </li>
           <li>
-            <a
-              href="#"
-              :class="{ selected: filter === 'todo' }"
-              @click="filter = 'todo'"
+            <a :class="{ selected: filter === 'todo' }" @click="filter = 'todo'"
               >A faire</a
             >
           </li>
@@ -205,11 +181,5 @@ export default {
   },
 };
 </script>
-<style>
-.bounce-enter-active {
-  animation: bounce-in 0.3s;
-}
-.bounce-leave-active {
-  animation: bounce-out 0.3s;
-}
+<style src="./todos.css">
 </style>
