@@ -19,7 +19,7 @@
         v-model="allDone"
       />
       <label for="alLDone"></label>
-      <ul class="todo-list">
+      <transition-group name="bounce" tag="ul" class="todo-list" appear>
         <!-- :class="{ completed: todo.completed }": Rajoute la classe 'completed' si notre tache est completer -->
         <li
           class="todo"
@@ -38,7 +38,7 @@
             <label :for="index">{{ todo.name }}</label>
           </div>
         </li>
-      </ul>
+      </transition-group>
     </div>
     <footer class="footer">
       <div class="mb-3 count-container">
@@ -102,7 +102,7 @@ export default {
         });
       },
       get() {
-        return false;
+        return this.done === 0;
       },
     },
     undone() {
@@ -166,3 +166,11 @@ export default {
   },
 };
 </script>
+<style>
+.bounce-enter-active {
+  animation: bounce-in 0.3s;
+}
+.bounce-leave-active {
+  animation: bounce-out 0.3s;
+}
+</style>
