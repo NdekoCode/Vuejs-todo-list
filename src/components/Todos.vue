@@ -36,6 +36,10 @@
               v-model="todo.completed"
             />
             <label :for="index">{{ todo.name }}</label>
+            <button
+              class="destroy pointer"
+              @click.prevent="removeTodo(todo)"
+            ></button>
           </div>
         </li>
       </transition-group>
@@ -91,6 +95,9 @@ export default {
         alert("Entrer une tache correcte");
       }
     },
+    removeTodo(todo) {
+      this.todos = this.todos.filter((d) => d.name !== todo.name);
+    },
   },
   computed: {
     allDone: {
@@ -102,7 +109,7 @@ export default {
         });
       },
       get() {
-        return this.done === 0;
+        return this.undone === 0;
       },
     },
     undone() {
