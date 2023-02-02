@@ -17,7 +17,7 @@
         <li
           class="todo"
           :class="{ completed: todo.completed }"
-          v-for="(todo, index) in todos"
+          v-for="(todo, index) in filteredTodos"
           :key="index"
         >
           <div class="view">
@@ -43,9 +43,30 @@
         >
       </div>
       <ul class="filters">
-        <li><a href="#" class="selected">Toutes</a></li>
-        <li><a href="#">A faire</a></li>
-        <li><a href="#">Faites</a></li>
+        <li>
+          <a
+            href="#"
+            :class="{ selected: filter === 'all' }"
+            @click="filter = 'all'"
+            >Toutes</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            :class="{ selected: filter === 'todo' }"
+            @click="filter = 'todo'"
+            >A faire</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            :class="{ selected: filter === 'done' }"
+            @click="filter = 'done'"
+            >Faites</a
+          >
+        </li>
       </ul>
     </footer>
   </section>
@@ -71,26 +92,23 @@ export default {
     done() {
       return this.todos.filter((todo) => todo.completed).length;
     },
+    filteredTodos() {
+      if (this.filter === "done") {
+        return this.todos.filter((todo) => todo.completed);
+      } else if (this.filter === "todo") {
+        return this.todos.filter((todo) => !todo.completed);
+      }
+      return this.todos;
+    },
   },
   data() {
     return {
       newTodo: "",
+      filter: "all", // Done, todo,all
       todos: [
         {
-          name: "Do something nice for someone I care about",
-          completed: true,
-        },
-        {
-          name: "Memorize the fifty states and their capitals",
-          completed: false,
-        },
-        {
           name: "Watch a classic movie",
-          completed: false,
-        },
-        {
-          name: "Contribute code or a monetary donation to an open-source software project",
-          completed: false,
+          completed: true,
         },
         {
           name: "Solve a Rubik's cube",
@@ -105,10 +123,6 @@ export default {
           completed: false,
         },
         {
-          name: "Write a thank you letter to an influential person in my life",
-          completed: true,
-        },
-        {
           name: "Invite some friends over for a game night",
           completed: false,
         },
@@ -117,19 +131,11 @@ export default {
           completed: false,
         },
         {
-          name: "Text a friend I haven't talked to in a long time",
-          completed: false,
-        },
-        {
           name: "Organize pantry",
           completed: true,
         },
         {
           name: "Buy a new house decoration",
-          completed: false,
-        },
-        {
-          name: "Plan a vacation I've always wanted to take",
           completed: false,
         },
         {
