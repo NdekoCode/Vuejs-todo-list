@@ -11,22 +11,33 @@
     </form>
     <div class="main">
       <ul class="todo-list">
-        <li class="todo" v-for="(todo, index) in todos" :key="index">
+        <!-- :class="{ completed: todo.completed }": Rajoute la classe 'completed' si notre tache est completer -->
+        <li
+          class="todo"
+          :class="{ completed: todo.completed }"
+          v-for="(todo, index) in todos"
+          :key="index"
+        >
           <div class="view">
-            <label for="">{{ todo.name }}</label>
+            <input
+              class="toggle"
+              type="checkbox"
+              name="complete"
+              :id="index"
+              v-model="todo.completed"
+            />
+            <label :for="index">{{ todo.name }}</label>
           </div>
         </li>
       </ul>
     </div>
+    {{ JSON.stringify(todos) }}
   </section>
 </template>
 
 <script>
 export default {
   name: "Todos",
-  props: {
-    msg: String,
-  },
   methods: {
     addTodo() {
       if (this.newTodo.length > 2) {
