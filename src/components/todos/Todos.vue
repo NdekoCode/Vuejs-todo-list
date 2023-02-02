@@ -41,6 +41,7 @@
               @click.prevent="removeTodo(todo)"
             ></button>
           </div>
+          <input type="text" class="edit" v-model="todo.name" />
         </li>
       </transition-group>
     </div>
