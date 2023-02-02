@@ -20,7 +20,28 @@
       />
       <label for="alLDone"></label>
       <transition-group name="bounce" tag="ul" class="todo-list" appear>
-        <!-- :class="{ completed: todo.completed }": Rajoute la classe 'completed' si notre tache est completer -->
+        <!-- :class="{ comp
+        <li
+          class="todo"
+          :class="{ completed: todo.completed }"
+          v-for="(todo, index) in filteredTodos"
+          :key="index"
+        >
+          <div class="view">
+            <input
+              class="toggle"
+              type="checkbox"
+              name="complete"
+              :id="index"
+              v-model="todo.completed"
+            />
+            <label :for="index">{{ todo.name }}</label>
+            <button
+              class="destroy pointer"
+              @click.prevent="removeTodo(todo)"
+            ></button>
+          </div>
+        </li>leted: todo.completed }": Rajoute la classe 'completed' si notre tache est completer -->
         <li
           class="todo"
           :class="{ completed: todo.completed }"
@@ -45,7 +66,7 @@
       </transition-group>
     </div>
     <transition name="bounce">
-      <footer class="footer" v-if="todos.length > 0">
+      <footer class="footer" v-if="hasTodos">
         <div class="mb-3 count-container">
           <span class="todo-count mx-1"
             ><strong>{{ undone }} tache à faire</strong></span
@@ -80,6 +101,9 @@
             >
           </li>
         </ul>
+        <button v-if="done" class="clear-completed" @click="deleteCompleted">
+          Supprimer les taches terminer
+        </button>
       </footer>
     </transition>
   </section>
@@ -100,8 +124,14 @@ export default {
     removeTodo(todo) {
       this.todos = this.todos.filter((d) => d.name !== todo.name);
     },
+    deleteCompleted() {
+      this.todos = this.todos.filter((d) => !d.completed);
+    },
   },
   computed: {
+    hasTodos() {
+      return this.todos.length > 0;
+    },
     allDone: {
       set(value) {
         console.log(value);
