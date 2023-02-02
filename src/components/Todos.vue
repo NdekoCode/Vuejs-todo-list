@@ -1,14 +1,16 @@
 <template>
   <section class="todoapp">
-    <form class="header" @submit.prevent="addTodo">
-      <h1 class="">Todos</h1>
-      <input
-        v-model="newTodo"
-        type="text"
-        class="new-todo"
-        placeholder="Ajouter une tache"
-      />
-    </form>
+    <header>
+      <form class="header" @submit.prevent="addTodo">
+        <h1 class="">Todos</h1>
+        <input
+          v-model="newTodo"
+          type="text"
+          class="new-todo"
+          placeholder="Ajouter une tache"
+        />
+      </form>
+    </header>
     <div class="main">
       <ul class="todo-list">
         <!-- :class="{ completed: todo.completed }": Rajoute la classe 'completed' si notre tache est completer -->
@@ -31,7 +33,14 @@
         </li>
       </ul>
     </div>
-    {{ JSON.stringify(todos) }}
+    <footer class="footer">
+      <span class="todo-count"
+        ><strong>{{ undone }} tache à faire</strong></span
+      >
+      <span class="todo-count"
+        ><strong>{{ done }} Tache faite</strong></span
+      >
+    </footer>
   </section>
 </template>
 
@@ -46,6 +55,14 @@ export default {
       } else {
         alert("Entrer une tache correcte");
       }
+    },
+  },
+  computed: {
+    undone() {
+      return this.todos.filter((todo) => !todo.completed).length;
+    },
+    done() {
+      return this.todos.filter((todo) => todo.completed).length;
     },
   },
   data() {
