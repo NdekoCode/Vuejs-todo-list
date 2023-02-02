@@ -44,42 +44,44 @@
         </li>
       </transition-group>
     </div>
-    <footer class="footer">
-      <div class="mb-3 count-container">
-        <span class="todo-count mx-1"
-          ><strong>{{ undone }} tache à faire</strong></span
-        >
-        <span class="todo-count mx-1"
-          ><strong>{{ done }} Tache faites</strong></span
-        >
-      </div>
-      <ul class="filters">
-        <li>
-          <a
-            href="#"
-            :class="{ selected: filter === 'all' }"
-            @click="filter = 'all'"
-            >Toutes</a
+    <transition name="bounce">
+      <footer class="footer" v-if="todos.length > 0">
+        <div class="mb-3 count-container">
+          <span class="todo-count mx-1"
+            ><strong>{{ undone }} tache à faire</strong></span
           >
-        </li>
-        <li>
-          <a
-            href="#"
-            :class="{ selected: filter === 'todo' }"
-            @click="filter = 'todo'"
-            >A faire</a
+          <span class="todo-count mx-1"
+            ><strong>{{ done }} Tache faites</strong></span
           >
-        </li>
-        <li>
-          <a
-            href="#"
-            :class="{ selected: filter === 'done' }"
-            @click="filter = 'done'"
-            >Faites</a
-          >
-        </li>
-      </ul>
-    </footer>
+        </div>
+        <ul class="filters">
+          <li>
+            <a
+              href="#"
+              :class="{ selected: filter === 'all' }"
+              @click="filter = 'all'"
+              >Toutes</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              :class="{ selected: filter === 'todo' }"
+              @click="filter = 'todo'"
+              >A faire</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              :class="{ selected: filter === 'done' }"
+              @click="filter = 'done'"
+              >Faites</a
+            >
+          </li>
+        </ul>
+      </footer>
+    </transition>
   </section>
 </template>
 
