@@ -100,6 +100,12 @@
 import Vue from "vue";
 export default {
   name: "Todos",
+  props: {
+    value: {
+      type: Array,
+      default: () => [],
+    },
+  },
   methods: {
     editTodo(todo) {
       this.editing = todo;
@@ -164,44 +170,7 @@ export default {
       editing: null,
       newTodo: "",
       filter: "all", // Done, todo,all
-      todos: [
-        {
-          name: "Watch a classic movie",
-          completed: true,
-        },
-        {
-          name: "Solve a Rubik's cube",
-          completed: false,
-        },
-        {
-          name: "Bake pastries for me and neighbor",
-          completed: false,
-        },
-        {
-          name: "Go see a Broadway production",
-          completed: false,
-        },
-        {
-          name: "Invite some friends over for a game night",
-          completed: false,
-        },
-        {
-          name: "Have a football scrimmage with some friends",
-          completed: false,
-        },
-        {
-          name: "Organize pantry",
-          completed: true,
-        },
-        {
-          name: "Buy a new house decoration",
-          completed: false,
-        },
-        {
-          name: "Clean out car",
-          completed: false,
-        },
-      ],
+      todos: this.value,
     };
   },
   directives: {
