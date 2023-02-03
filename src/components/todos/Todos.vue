@@ -23,7 +23,7 @@
         <!-- class="{completed: todo.completed }": Rajoute la classe 'completed' si notre tache est completer -->
         <li
           class="todo"
-          :class="{ completed: todo.completed }"
+          :class="{ completed: todo.completed, editing: editing === todo }"
           v-for="(todo, index) in filteredTodos"
           :key="index"
         >
@@ -35,13 +35,23 @@
               :id="index"
               v-model="todo.completed"
             />
-            <label :for="index">{{ todo.name }}</label>
+            <label :for="index" @dblclick="editTodo(todo)">{{
+              todo.name
+            }}</label>
             <button
               class="destroy pointer"
               @click.prevent="removeTodo(todo)"
             ></button>
           </div>
-          <input type="text" class="edit" v-model="todo.name" />
+          <input
+            type="text"
+            class="edit"
+            v-model="todo.name"
+            @keyup.esc="cancelEdit"
+            @keyup.enter="doneEdit"
+            @blur="cancelEdit"
+            v-focus="editing === todo"
+          />
         </li>
       </transition-group>
     </div>
@@ -87,9 +97,27 @@
 </template>
 
 <script>
+import Vue from "vue";
 export default {
   name: "Todos",
+  props: {
+    value: {
+      type: Array,
+      default: () => [],
+    },
+  },
   methods: {
+    editTodo(todo) {
+      this.editing = todo;
+      this.oldTodo = todo.name;
+    },
+    cancelEdit() {
+      this.editing.name = this.oldTodo;
+      this.doneEdit();
+    },
+    doneEdit() {
+      this.editing = null;
+    },
     addTodo() {
       if (this.newTodo.length > 2) {
         this.todos = [{ name: this.newTodo, completed: false }, ...this.todos];
@@ -138,47 +166,19 @@ export default {
   },
   data() {
     return {
+      oldTodo: null,
+      editing: null,
       newTodo: "",
       filter: "all", // Done, todo,all
-      todos: [
-        {
-          name: "Watch a classic movie",
-          completed: true,
-        },
-        {
-          name: "Solve a Rubik's cube",
-          completed: false,
-        },
-        {
-          name: "Bake pastries for me and neighbor",
-          completed: false,
-        },
-        {
-          name: "Go see a Broadway production",
-          completed: false,
-        },
-        {
-          name: "Invite some friends over for a game night",
-          completed: false,
-        },
-        {
-          name: "Have a football scrimmage with some friends",
-          completed: false,
-        },
-        {
-          name: "Organize pantry",
-          completed: true,
-        },
-        {
-          name: "Buy a new house decoration",
-          completed: false,
-        },
-        {
-          name: "Clean out car",
-          completed: false,
-        },
-      ],
+      todos: this.value,
     };
+  },
+  directives: {
+    focus(el, value) {
+      if (value) {
+        Vue.nextTick(() => el.focus());
+      }
+    },
   },
 };
 </script>
