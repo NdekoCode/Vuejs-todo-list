@@ -43,7 +43,12 @@
               @click.prevent="removeTodo(todo)"
             ></button>
           </div>
-          <input type="text" class="edit" v-model="todo.name" />
+          <input
+            type="text"
+            class="edit"
+            v-model="todo.name"
+            v-focus="editing === todo"
+          />
         </li>
       </transition-group>
     </div>
@@ -89,6 +94,7 @@
 </template>
 
 <script>
+import Vue from "vue";
 export default {
   name: "Todos",
   methods: {
@@ -185,6 +191,13 @@ export default {
         },
       ],
     };
+  },
+  directives: {
+    focus(el, value) {
+      if (value) {
+        Vue.nextTick(() => el.focus());
+      }
+    },
   },
 };
 </script>
