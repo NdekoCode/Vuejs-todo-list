@@ -47,6 +47,8 @@
             type="text"
             class="edit"
             v-model="todo.name"
+            @keyup.enter="cancelEdit"
+            @blur="cancelEdit"
             v-focus="editing === todo"
           />
         </li>
@@ -100,6 +102,9 @@ export default {
   methods: {
     editTodo(todo) {
       this.editing = todo;
+    },
+    cancelEdit() {
+      this.editing = null;
     },
     addTodo() {
       if (this.newTodo.length > 2) {
