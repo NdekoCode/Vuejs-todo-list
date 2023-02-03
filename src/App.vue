@@ -2,7 +2,7 @@
   <div id="app">
     {{ todos }}
     <Todos v-model="todos" />
-    <Todos />
+    <Todos v-model="todos" />
     <Todos />
   </div>
 </template>

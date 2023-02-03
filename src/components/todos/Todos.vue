@@ -112,8 +112,11 @@ export default {
       this.oldTodo = todo.name;
     },
     cancelEdit() {
-      this.editing.name = this.oldTodo;
-      this.doneEdit();
+      if (this.editing !== null) {
+        this.editing.name = this.oldTodo;
+
+        this.doneEdit();
+      }
     },
     doneEdit() {
       this.editing = null;
@@ -121,6 +124,7 @@ export default {
     addTodo() {
       if (this.newTodo.length > 2) {
         this.todos = [{ name: this.newTodo, completed: false }, ...this.todos];
+        this.$emit("input", this.todos);
         this.newTodo = "";
       } else {
         alert("Entrer une tache correcte");
@@ -128,9 +132,11 @@ export default {
     },
     removeTodo(todo) {
       this.todos = this.todos.filter((d) => d.name !== todo.name);
+      this.$emit("input", this.todos);
     },
     deleteCompleted() {
       this.todos = this.todos.filter((d) => !d.completed);
+      this.$emit("input", this.todos);
     },
   },
   computed: {
@@ -139,9 +145,9 @@ export default {
     },
     allDone: {
       set(value) {
-        console.log(value);
         this.todos = this.todos.map((todo) => {
           todo.completed = Boolean(value);
+          this.$emit("input", this.todos);
           return todo;
         });
       },
@@ -178,6 +184,12 @@ export default {
       if (value) {
         Vue.nextTick(() => el.focus());
       }
+    },
+  },
+  watcher: {
+    value(value) {
+      this.todos = value;
+      this.$emit("input", this.todos);
     },
   },
 };
