@@ -186,6 +186,12 @@ export default {
       }
     },
   },
+  watcher: {
+    value(value) {
+      this.todos = value;
+      this.$emit("input", this.todos);
+    },
+  },
 };
 </script>
 <style src="./todos.css">
