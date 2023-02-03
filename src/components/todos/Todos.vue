@@ -47,7 +47,8 @@
             type="text"
             class="edit"
             v-model="todo.name"
-            @keyup.enter="cancelEdit"
+            @keyup.esc="cancelEdit"
+            @keyup.enter="doneEdit"
             @blur="cancelEdit"
             v-focus="editing === todo"
           />
@@ -102,8 +103,13 @@ export default {
   methods: {
     editTodo(todo) {
       this.editing = todo;
+      this.oldTodo = todo.name;
     },
     cancelEdit() {
+      this.editing.name = this.oldTodo;
+      this.doneEdit();
+    },
+    doneEdit() {
       this.editing = null;
     },
     addTodo() {
@@ -154,6 +160,7 @@ export default {
   },
   data() {
     return {
+      oldTodo: null,
       editing: null,
       newTodo: "",
       filter: "all", // Done, todo,all
