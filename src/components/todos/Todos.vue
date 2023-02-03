@@ -23,7 +23,7 @@
         <!-- class="{completed: todo.completed }": Rajoute la classe 'completed' si notre tache est completer -->
         <li
           class="todo"
-          :class="{ completed: todo.completed }"
+          :class="{ completed: todo.completed, editing: editing === todo }"
           v-for="(todo, index) in filteredTodos"
           :key="index"
         >
@@ -35,7 +35,9 @@
               :id="index"
               v-model="todo.completed"
             />
-            <label :for="index">{{ todo.name }}</label>
+            <label :for="index" @dblclick="editTodo(todo)">{{
+              todo.name
+            }}</label>
             <button
               class="destroy pointer"
               @click.prevent="removeTodo(todo)"
@@ -90,6 +92,9 @@
 export default {
   name: "Todos",
   methods: {
+    editTodo(todo) {
+      this.editing = todo;
+    },
     addTodo() {
       if (this.newTodo.length > 2) {
         this.todos = [{ name: this.newTodo, completed: false }, ...this.todos];
@@ -138,6 +143,7 @@ export default {
   },
   data() {
     return {
+      editing: null,
       newTodo: "",
       filter: "all", // Done, todo,all
       todos: [
